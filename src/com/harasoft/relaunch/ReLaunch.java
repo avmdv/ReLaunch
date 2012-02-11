@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 import ebook.EBook;
 import ebook.parser.InstantParser;
@@ -119,6 +120,7 @@ public class ReLaunch extends Activity {
 	String[] allowedManufacts;
 	String[] allowedProducts;
 	boolean addSView = true;
+	Pattern purgeBracketsPattern;
 
 	// multicolumns per directory configuration
 	List<String[]> columnsArray = new ArrayList<String[]>();
@@ -386,7 +388,7 @@ public class ReLaunch extends Activity {
 				TextView tv = holder.tv;
 				LinearLayout tvHolder = holder.tvHolder;
 				ImageView iv = holder.iv;
-				String sname = item.get("name");
+				String sname = item.get("sname");
 				// clean extension, if needed
 				if (prefs.getBoolean("hideKnownExts", false)) {
 					for (int i = 0; i < exts.size(); i++) {
@@ -990,6 +992,7 @@ public class ReLaunch extends Activity {
 				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
 			item.put("name", f);
+			item.put("sname", f);
 			item.put("dname", dir.getAbsolutePath());
 			if (f.equals("..")) {
 				upDir = dir.getParent();
@@ -1005,9 +1008,10 @@ public class ReLaunch extends Activity {
 				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
 			if (prefs.getBoolean("showBookTitles", false))
-				item.put("name", getEbookName(dir.getAbsolutePath(), f));
+				item.put("sname", getEbookName(dir.getAbsolutePath(), f));
 			else
-				item.put("name", f);
+				item.put("sname", f);
+			item.put("name", f);
 			item.put("dname", dir.getAbsolutePath());
 			item.put("fname", dir.getAbsolutePath() + "/" + f);
 			item.put("type", "file");
@@ -1497,6 +1501,7 @@ public class ReLaunch extends Activity {
 		}
 
 		dataBase = new BooksBase(this);
+		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]?\\]");
 
 		// Global arrays
 		allowedModels = getResources().getStringArray(R.array.allowed_models);
@@ -2847,7 +2852,11 @@ public class ReLaunch extends Activity {
 			break;
 
 		case CNTXT_MENU_PASTE:
-			String src = fileOpDir + "/" + fileOpFile;
+			String src;
+			if (fileOpDir.equalsIgnoreCase("/"))
+				src = fileOpDir + fileOpFile;
+			else
+				src = fileOpDir + "/" + fileOpFile;
 			String dst = dname + "/" + fileOpFile;
 			boolean retCode = false;
 			if (fileOp == CNTXT_MENU_COPY)
@@ -2858,6 +2867,11 @@ public class ReLaunch extends Activity {
 				fileOp = 0;
 				HashMap<String, String> fitem = new HashMap<String, String>();
 				fitem.put("name", fileOpFile);
+				if (prefs.getBoolean("showBookTitles", false))
+					fitem.put("sname", getEbookName(dname, fileOpFile));
+				else
+					fitem.put("sname", fileOpFile);
+				fitem.put("sname", getEbookName(dname, fileOpFile));
 				fitem.put("dname", dname);
 				fitem.put("fname", dname + "/" + fileOpFile);
 				fitem.put("type", "file");
@@ -3111,11 +3125,14 @@ public class ReLaunch extends Activity {
 				output = output.replace("%n", eBook.sequenceNumber);
 			else
 				output = output.replace("%n", "");
+			output = purgeBracketsPattern.matcher(output).replaceAll("");
+			output = output.replace("[", "");
+			output = output.replace("]", "");
 			return output;
 		} else
 			return file;
 	}
-
+	
 	private void hideLayout(int id) {
 		View v = (View) findViewById(id);
 		LayoutParams p = (LayoutParams) v.getLayoutParams();

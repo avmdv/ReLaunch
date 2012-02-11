@@ -499,10 +499,10 @@ public class ReLaunchApp extends Application {
 	    FileChannel dst = null;
 	    boolean ret;
 	    try {
+	        src = new FileInputStream(srcFile).getChannel();
 	    	if(!dstFile.exists()) {
 		        dstFile.createNewFile();
 		    }
-	        src = new FileInputStream(srcFile).getChannel();
 	        dst = new FileOutputStream(dstFile).getChannel();
 	        dst.transferFrom(src, 0, src.size());
             src.close();
@@ -514,11 +514,18 @@ public class ReLaunchApp extends Application {
 	    return ret;
 	}
 	
-	//Copy file src to dst
+	//Move file src to dst
 	public boolean moveFile(String from, String to) {
-		File src = new File(from);
-		File dst = new File(to);
-		return src.renameTo(dst);
+		boolean ret = false;
+		if (from.split("/")[0].equalsIgnoreCase(to.split("/")[0])) {
+			File src = new File(from);
+			File dst = new File(to);
+			ret = src.renameTo(dst);
+		} else {
+			if (copyFile(from, to))
+				ret = removeFile(from);
+		}
+		return ret;
 	}
 	
 	// common utility - get intent by label, null if not found
