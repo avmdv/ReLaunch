@@ -493,25 +493,26 @@ public class ReLaunchApp extends Application {
 
 	//Copy file src to dst
 	public boolean copyFile(String from, String to) {
-		File srcFile = new File(from); 
-		File dstFile = new File(to); 
-	    FileChannel src = null;
-	    FileChannel dst = null;
-	    boolean ret;
-	    try {
-	        src = new FileInputStream(srcFile).getChannel();
-	    	if(!dstFile.exists()) {
-		        dstFile.createNewFile();
-		    }
-	        dst = new FileOutputStream(dstFile).getChannel();
-	        dst.transferFrom(src, 0, src.size());
-            src.close();
-            dst.close();
-            ret = true;
-	    } catch (IOException e) {
-	    	ret = false;
-	    }
-	    return ret;
+		File srcFile = new File(from);
+		File dstFile = new File(to);
+		FileChannel src = null;
+		FileChannel dst = null;
+		boolean ret;
+//		if ((!srcFile.canRead()) || (!dstFile.canWrite()) || (dstFile.exists()))
+		if ((!srcFile.canRead()) || (dstFile.exists()))
+			return false;
+		try {
+			dstFile.createNewFile();
+			src = new FileInputStream(srcFile).getChannel();
+			dst = new FileOutputStream(dstFile).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			ret = true;
+		} catch (IOException e) {
+			ret = false;
+		}
+		return ret;
 	}
 	
 	//Move file src to dst
@@ -526,6 +527,12 @@ public class ReLaunchApp extends Application {
 				ret = removeFile(from);
 		}
 		return ret;
+	}
+	
+	public boolean createDir(String dst) {
+		boolean ret = false;
+		File dir = new File(dst);
+		return dir.mkdir();
 	}
 	
 	// common utility - get intent by label, null if not found
