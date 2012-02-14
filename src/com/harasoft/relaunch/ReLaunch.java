@@ -108,6 +108,8 @@ public class ReLaunch extends Activity {
 	final static int CNTXT_MENU_CREATE_DIR = 15;
 	final static int CNTXT_MENU_COPY_DIR = 16;
 	final static int CNTXT_MENU_MOVE_DIR = 17;
+	final static int CNTXT_MENU_SWITCH_TITLES = 18;
+	final static int CNTXT_MENU_TAGS_RENAME = 19;
 	String currentRoot = "/sdcard";
 	Integer currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -591,7 +593,8 @@ public class ReLaunch extends Activity {
 
 	private void redrawList() {
 		setEinkController();
-
+		GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list
+				: R.id.gl_list);
 		if (prefs.getBoolean("filterResults", false)) {
 			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
 
@@ -603,6 +606,9 @@ public class ReLaunch extends Activity {
 			itemsArray = newItemsArray;
 		}
 		adapter.notifyDataSetChanged();
+		int curPos = prefs.getInt("posInFolder", 0);
+		gv.setSelection(curPos);
+//		gv.invalidate();
 	}
 
 	private static List<HashMap<String, String>> parseReadersString(
@@ -1110,6 +1116,9 @@ public class ReLaunch extends Activity {
 
 				HashMap<String, String> item = itemsArray.get(position);
 
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putInt("posInFolder", parent.getFirstVisiblePosition());
+				editor.commit();
 				if (item.get("type").equals("dir")) {
 					// Goto directory
 					pushCurrentPos(parent, true);
@@ -2285,18 +2294,18 @@ public class ReLaunch extends Activity {
 			setEinkController();
 
 			// First directory to get to
-//			if (data.getExtras() != null
-//					&& data.getExtras().getString("start_dir") != null) {
-//				drawDirectory(data.getExtras().getString("start_dir"), -1);
-//			} else {
-//				if (prefs.getBoolean("saveDir", true))
-//					drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
-//				else {
-//					String[] startDirs = prefs.getString("startDir",
-//							"/sdcard,/media/My Files").split("\\,");
-//					drawDirectory(startDirs[0], -1);
-//				}
-//			}
+			if (data.getExtras() != null
+					&& data.getExtras().getString("start_dir") != null) {
+				drawDirectory(data.getExtras().getString("start_dir"), -1);
+			} else {
+				if (prefs.getBoolean("saveDir", true))
+					drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
+				else {
+					String[] startDirs = prefs.getString("startDir",
+							"/sdcard,/media/My Files").split("\\,");
+					drawDirectory(startDirs[0], -1);
+				}
+			}
 		}
 
 		app.booted = true;
@@ -2402,6 +2411,12 @@ public class ReLaunch extends Activity {
 			String tp = i.get("type");
 			String fullName = dr + "/" + fn;
 
+//			if (prefs.getBoolean("showBookTitles", false))
+//				menu.add(Menu.NONE, CNTXT_MENU_SWITCH_TITLES, Menu.NONE,
+//						getResources().getString(R.string.jv_relaunch_switch_titles_off));
+//			else
+//				menu.add(Menu.NONE, CNTXT_MENU_SWITCH_TITLES, Menu.NONE,
+//						getResources().getString(R.string.jv_relaunch_switch_titles_on));
 			if (tp.equals("file")) {
 				if (!app.contains("favorites", dr, fn))
 					// "Add to favorites"
@@ -2453,6 +2468,20 @@ public class ReLaunch extends Activity {
 									R.string.jv_relaunch_createintent));
 				// "Delete"
 				if (prefs.getBoolean("useFileManagerFunctions", true)) {
+					if (!prefs.getBoolean("showBookTitles", false))
+						if (fn.endsWith("fb2") || fn.endsWith("fb2.zip") || fn.endsWith("epub"))
+						menu.add(
+								Menu.NONE,
+								CNTXT_MENU_TAGS_RENAME,
+								Menu.NONE,
+								getResources().getString(
+										R.string.jv_relaunch_tags_rename));
+					menu.add(
+							Menu.NONE,
+							CNTXT_MENU_CREATE_DIR,
+							Menu.NONE,
+							getResources().getString(
+									R.string.jv_relaunch_create_folder));
 					if (!prefs.getBoolean("showBookTitles", false))
 						menu.add(
 								Menu.NONE,
@@ -2531,8 +2560,14 @@ public class ReLaunch extends Activity {
 			menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE,
 					getResources().getString(R.string.jv_relaunch_cancel));
 		} else if (v.getClass() == LinearLayout.class) {
-			if (prefs.getBoolean("useFileManagerFunctions", true)) {
-				if (menu.size() == 0) {
+			if (menu.size() == 0) {
+//				if (prefs.getBoolean("showBookTitles", false))
+//					menu.add(Menu.NONE, CNTXT_MENU_SWITCH_TITLES, Menu.NONE,
+//							getResources().getString(R.string.jv_relaunch_switch_titles_off));
+//				else
+//					menu.add(Menu.NONE, CNTXT_MENU_SWITCH_TITLES, Menu.NONE,
+//							getResources().getString(R.string.jv_relaunch_switch_titles_on));
+				if (prefs.getBoolean("useFileManagerFunctions", true)) {
 					menu.add(
 						Menu.NONE,
 						CNTXT_MENU_CREATE_DIR,
@@ -2550,6 +2585,7 @@ public class ReLaunch extends Activity {
 			}	
 		}
 	}
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == CNTXT_MENU_CANCEL)
@@ -2971,7 +3007,7 @@ public class ReLaunch extends Activity {
 				itemsArray.add(fitem);
 				fileOp = 0;
 //				redrawList();
-				drawDirectory(dname, 0);
+				drawDirectory(dname, currentPosition);
 			} else {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setTitle(getResources().getString(
@@ -2990,6 +3026,70 @@ public class ReLaunch extends Activity {
 				builder.show();
 			}
 			break;
+
+		case CNTXT_MENU_TAGS_RENAME: {
+			final Context mThis = this;
+			final String oldFullName = dname + "/" + fname;
+			String newName = getEbookName(dname, fname);
+			if (fname.endsWith("fb2"))
+				newName = newName.concat(".fb2");
+			else if (fname.endsWith("fb2.zip"))
+				newName = newName.concat(".fb2.zip");
+			else if (fname.endsWith("epub"))
+				newName = newName.concat(".epub");
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			final EditText input = new EditText(this);
+			input.setText(newName);
+			builder.setView(input);
+			builder.setTitle(getResources().getString(
+					R.string.jv_relaunch_rename_title));
+			// "OK"
+			builder.setPositiveButton(
+					getResources().getString(R.string.jv_relaunch_ok),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							dialog.dismiss();
+							String newName = input.getText().toString().trim();
+							String newFullName = dname + "/" + newName;
+							if (app.moveFile(oldFullName, newFullName)) {
+								itemsArray.get(pos).put("name", newName);
+								itemsArray.get(pos).put("sname", newName);
+								itemsArray.get(pos).put("fname", newFullName);
+								redrawList();
+							} else {
+								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
+								builder.setTitle(getResources().getString(
+										R.string.jv_relaunch_error_title));
+								builder.setMessage(getResources().getString(
+										R.string.jv_relaunch_rename_fail_text)
+										+ " " + fname);
+								builder.setNeutralButton(
+										getResources().getString(R.string.jv_relaunch_ok),
+										new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog,
+													int whichButton) {
+												dialog.dismiss();
+											}
+										});
+								builder.show();
+							}
+						}
+					});
+			// "Cancel"
+			builder.setNegativeButton(
+					getResources().getString(R.string.jv_relaunch_cancel),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							dialog.dismiss();
+						}
+					});
+
+			builder.show();
+			}
+			break;
+
 		case CNTXT_MENU_RENAME: {
 			final Context mThis = this;
 			final String oldFullName = dname + "/" + fname;
@@ -3044,6 +3144,7 @@ public class ReLaunch extends Activity {
 			builder.show();
 			}
 			break;
+
 		case CNTXT_MENU_CREATE_DIR: {
 			final Context mThis = this;
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -3074,7 +3175,7 @@ public class ReLaunch extends Activity {
 								fitem.put("reader", "nope");
 								itemsArray.add(fitem);
 //								redrawList();
-								drawDirectory(dname,0);
+								drawDirectory(dname, currentPosition);
 							} else {
 								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
 								builder.setTitle(getResources().getString(
@@ -3105,8 +3206,16 @@ public class ReLaunch extends Activity {
 					});
 
 			builder.show();
-		}
+			}
 			break;
+
+		case CNTXT_MENU_SWITCH_TITLES:
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putBoolean("showBookTitles", !prefs.getBoolean("showBookTitles", false));
+			editor.commit();
+			drawDirectory(dname, currentPosition);
+			break;
+
 		}
 		return true;
 	}
@@ -3154,6 +3263,7 @@ public class ReLaunch extends Activity {
 		app.setList("columns", c);
 		app.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");
 		// unregisterReceiver(this.SDReceiver);
+		dataBase.db.close();
 		super.onStop();
 	}
 

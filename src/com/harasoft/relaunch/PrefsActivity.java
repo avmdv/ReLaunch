@@ -167,6 +167,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("customScroll", app.customScrollDef));
 		defItems.add(new PrefItem("scrollWidth", "25"));
 		defItems.add(new PrefItem("scrollPad", "10"));
+//		defItems.add(new PrefItem("posInFolder", "0"));
 
 		// Search setting
 		defItems.add(new PrefItem("searchSize", "5000"));

@@ -202,6 +202,9 @@
     <string name="jv_relaunch_turning_wifi_off">WiFi выключен</string>
     <string name="jv_relaunch_prev">пред.</string>
     <string name="jv_relaunch_next">след.</string>
+    <string name="jv_relaunch_switch_titles_on">Показать названия книг</string>
+    <string name="jv_relaunch_switch_titles_off">Показать файлы</string>
+    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub...</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
