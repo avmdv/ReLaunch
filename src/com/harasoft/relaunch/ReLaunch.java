@@ -607,6 +607,9 @@ public class ReLaunch extends Activity {
 		}
 		adapter.notifyDataSetChanged();
 		int curPos = prefs.getInt("posInFolder", 0);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt("posInFolder", 0);
+		editor.commit();
 		gv.setSelection(curPos);
 //		gv.invalidate();
 	}
@@ -1046,6 +1049,13 @@ public class ReLaunch extends Activity {
 				useDirViewer ? R.layout.results_layout : R.layout.flist_layout,
 				from, to);
 		gv.setAdapter(adapter);
+
+		LayoutParams gvParams = (LayoutParams) gv.getLayoutParams();
+		if (adapter.isEmpty())
+			gvParams.height = 0;
+		else
+			gvParams.height = LayoutParams.FILL_PARENT;
+
 		gv.setHorizontalSpacing(0);
 		Integer colsNum = -1;
 		if (getDirectoryColumns(currentRoot) != 0) {
@@ -1116,9 +1126,6 @@ public class ReLaunch extends Activity {
 
 				HashMap<String, String> item = itemsArray.get(position);
 
-				SharedPreferences.Editor editor = prefs.edit();
-				editor.putInt("posInFolder", parent.getFirstVisiblePosition());
-				editor.commit();
 				if (item.get("type").equals("dir")) {
 					// Goto directory
 					pushCurrentPos(parent, true);
@@ -1126,6 +1133,9 @@ public class ReLaunch extends Activity {
 				} else if (app.specialAction(ReLaunch.this, item.get("fname")))
 					pushCurrentPos(parent, false);
 				else {
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putInt("posInFolder", parent.getFirstVisiblePosition());
+					editor.commit();
 					pushCurrentPos(parent, false);
 					if (item.get("reader").equals("Nope"))
 						app.defaultAction(ReLaunch.this, item.get("fname"));
@@ -1522,7 +1532,7 @@ public class ReLaunch extends Activity {
 		}
 
 		dataBase = new BooksBase(this);
-		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]?\\]");
+		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
 
 		// Global arrays
 		allowedModels = getResources().getStringArray(R.array.allowed_models);
@@ -3263,7 +3273,6 @@ public class ReLaunch extends Activity {
 		app.setList("columns", c);
 		app.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");
 		// unregisterReceiver(this.SDReceiver);
-		dataBase.db.close();
 		super.onStop();
 	}
 
@@ -3427,7 +3436,7 @@ public class ReLaunch extends Activity {
 				dataBase.addBook(eBook);
 		}
 		if (eBook.isOk) {
-			String output = prefs.getString("bookTitleFormat", "%a. %t");
+			String output = prefs.getString("bookTitleFormat", "[%a. ]%t");
 			if (eBook.authors.size() > 0) {
 				String author = "";
 				if (eBook.authors.get(0).firstName != null)

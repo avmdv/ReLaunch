@@ -5,7 +5,6 @@
     android:background="@color/normal_bg"
     android:orientation="vertical"
     android:padding="8dp" >
-
     <LinearLayout
     	android:id="@+id/linearLayoutTop"
     	android:layout_width="fill_parent"
@@ -146,7 +145,7 @@
         <GridView
             android:id="@+id/gl_list"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:duplicateParentState="true"
             android:numColumns="3"
