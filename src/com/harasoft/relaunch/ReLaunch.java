@@ -151,6 +151,8 @@ public class ReLaunch extends Activity {
 	String fileOpFile;
 	String fileOpDir;
 	int fileOp;
+	final String[] sortType = new String[] {"sname"};
+	final boolean[] sortOrder = new boolean[] {true};
 
 	private void actionSwitchWiFi() {
 		WifiManager wifiManager;
@@ -781,51 +783,55 @@ public class ReLaunch extends Activity {
 		if (batteryLevelReceiver == null) {
 			batteryLevelReceiver = new BroadcastReceiver() {
 				public void onReceive(Context context, Intent intent) {
-					context.unregisterReceiver(this);
-					batteryLevelRegistered = false;
-					int rawlevel = intent.getIntExtra(
-							BatteryManager.EXTRA_LEVEL, -1);
-					int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE,
-							-1);
-					int plugged = intent.getIntExtra(
-							BatteryManager.EXTRA_PLUGGED, -1);
-					int level = -1;
-					if (rawlevel >= 0 && scale > 0) {
-						level = (rawlevel * 100) / scale;
-					}
-					if (battLevel != null) {
-						String add_text = "";
-						if (plugged == BatteryManager.BATTERY_PLUGGED_AC) {
-							add_text = " AC";
-						} else if (plugged == BatteryManager.BATTERY_PLUGGED_USB) {
-							add_text = " USB";
+					try {
+						context.unregisterReceiver(this);
+						batteryLevelRegistered = false;
+						int rawlevel = intent.getIntExtra(
+								BatteryManager.EXTRA_LEVEL, -1);
+						int scale = intent.getIntExtra(
+								BatteryManager.EXTRA_SCALE, -1);
+						int plugged = intent.getIntExtra(
+								BatteryManager.EXTRA_PLUGGED, -1);
+						int level = -1;
+						if (rawlevel >= 0 && scale > 0) {
+							level = (rawlevel * 100) / scale;
 						}
-						battLevel.setText(level + "%" + add_text);
+						if (battLevel != null) {
+							String add_text = "";
+							if (plugged == BatteryManager.BATTERY_PLUGGED_AC) {
+								add_text = " AC";
+							} else if (plugged == BatteryManager.BATTERY_PLUGGED_USB) {
+								add_text = " USB";
+							}
+							battLevel.setText(level + "%" + add_text);
 
-						if (level < 25)
-							battLevel
-									.setCompoundDrawablesWithIntrinsicBounds(
-											getResources().getDrawable(
-													R.drawable.bat1), null,
-											null, null);
-						else if (level < 50)
-							battLevel
-									.setCompoundDrawablesWithIntrinsicBounds(
-											getResources().getDrawable(
-													R.drawable.bat2), null,
-											null, null);
-						else if (level < 75)
-							battLevel
-									.setCompoundDrawablesWithIntrinsicBounds(
-											getResources().getDrawable(
-													R.drawable.bat3), null,
-											null, null);
-						else
-							battLevel
-									.setCompoundDrawablesWithIntrinsicBounds(
-											getResources().getDrawable(
-													R.drawable.bat4), null,
-											null, null);
+							if (level < 25)
+								battLevel
+										.setCompoundDrawablesWithIntrinsicBounds(
+												getResources().getDrawable(
+														R.drawable.bat1), null,
+												null, null);
+							else if (level < 50)
+								battLevel
+										.setCompoundDrawablesWithIntrinsicBounds(
+												getResources().getDrawable(
+														R.drawable.bat2), null,
+												null, null);
+							else if (level < 75)
+								battLevel
+										.setCompoundDrawablesWithIntrinsicBounds(
+												getResources().getDrawable(
+														R.drawable.bat3), null,
+												null, null);
+							else
+								battLevel
+										.setCompoundDrawablesWithIntrinsicBounds(
+												getResources().getDrawable(
+														R.drawable.bat4), null,
+												null, null);
+						}
+					} catch (IllegalArgumentException e) {
+						Log.v("ReLaunch", "Battery intent illegal arguments");
 					}
 
 				}
@@ -854,10 +860,14 @@ public class ReLaunch extends Activity {
 		final Button tv = (Button) findViewById(useDirViewer ? R.id.results_title
 				: R.id.title_txt);
 		final String dirAbsPath = dir.getAbsolutePath();
-		tv.setText(dirAbsPath + " ("
+		if (prefs.getBoolean("showFullDirPath", false))
+			tv.setText(dirAbsPath + " ("
 				+ ((allEntries == null) ? 0 : allEntries.length) + ")");
-		tv.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		else
+			tv.setText(dir.getName());
+		class TvSimpleOnGestureListener extends SimpleOnGestureListener {
+			@Override
+			public boolean onSingleTapConfirmed(MotionEvent e) {
 				final String[] columns = getResources().getStringArray(
 						R.array.output_columns_names);
 				final CharSequence[] columnsmode = new CharSequence[columns.length + 1];
@@ -901,6 +911,26 @@ public class ReLaunch extends Activity {
 						});
 				AlertDialog alert = builder.create();
 				alert.show();
+				return true;
+			}
+
+			@Override
+			public boolean onDoubleTap(MotionEvent e) {
+				return true;
+			}
+
+			@Override
+			public void onLongPress(MotionEvent e) {
+				menuSort();
+			}
+		}
+		;
+		TvSimpleOnGestureListener tv_gl = new TvSimpleOnGestureListener();
+		final GestureDetector tv_gd = new GestureDetector(tv_gl);
+		tv.setOnTouchListener(new OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				tv_gd.onTouchEvent(event);
+				return false;
 			}
 		});
 
@@ -1036,7 +1066,7 @@ public class ReLaunch extends Activity {
 			fileItemsArray.add(item);
 		}
 
-		fileItemsArray = sortFiles(fileItemsArray);
+		fileItemsArray = sortFiles(fileItemsArray, sortType[0], sortOrder[0]);
 		itemsArray.addAll(fileItemsArray);
 
 		String[] from = new String[] { "name" };
@@ -3427,13 +3457,18 @@ public class ReLaunch extends Activity {
 
 	private String getEbookName(String dir, String file) {
 		EBook eBook;
+		if ((!file.endsWith("fb2")) && (!file.endsWith("fb2.zip")) &&(!file.endsWith("epub")))
+			return file;
 		String fileName = dir + "/" + file;
 		eBook = dataBase.getBookByFileName(dir + "/" + file);
 		if (!eBook.isOk) {
 			Parser parser = new InstantParser();
 			eBook = parser.parse(fileName);
-			if (eBook.isOk)
-				dataBase.addBook(eBook);
+			if (eBook.isOk) {
+				if ((eBook.sequenceNumber != null) && (eBook.sequenceNumber.length() == 1))
+					eBook.sequenceNumber = "0" + eBook.sequenceNumber;
+					dataBase.addBook(eBook);
+			}
 		}
 		if (eBook.isOk) {
 			String output = prefs.getString("bookTitleFormat", "[%a. ]%t");
@@ -3471,19 +3506,74 @@ public class ReLaunch extends Activity {
 		v.setLayoutParams(p);
 	}
 
-	private List<HashMap<String, String>> sortFiles(List<HashMap<String, String>> array) {
+	private List<HashMap<String, String>> sortFiles(
+			List<HashMap<String, String>> array, String field, boolean order) {
 		class ArrayComparator implements Comparator<Object> {
+			String key;
+
+			ArrayComparator(String key) {
+				this.key = key;
+			}
+
 			public int compare(Object lhs, Object rhs) {
-				return ((HashMap<String, String>)lhs).get("sname").compareToIgnoreCase(((HashMap<String, String>)rhs).get("sname"));
+				return ((HashMap<String, String>) lhs).get(key)
+						.compareToIgnoreCase(
+								((HashMap<String, String>) rhs).get(key));
 			}
 		}
 		Object[] arr = array.toArray();
-		ArrayComparator comparator = new ArrayComparator();
+		ArrayComparator comparator = new ArrayComparator(field);
 		Arrays.sort(arr, comparator);
 		List<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
-		for (int i=0; i< arr.length; i++)
-			ret.add((HashMap<String, String>)arr[i]);
+		if (order) {
+			for (int i = 0; i < arr.length; i++)
+				ret.add((HashMap<String, String>) arr[i]);
+		} else {
+			for (int i = arr.length - 1; i >=0; i--)
+				ret.add((HashMap<String, String>) arr[i]);
+		}
 		return ret;
 	}
 
+	private void menuSort() {
+		final String[] orderList = new String[4];
+		orderList[0] = getString(R.string.jv_relaunch_sort_file_dir);
+		orderList[1] = getString(R.string.jv_relaunch_sort_file_rev);
+		orderList[2] = getString(R.string.jv_relaunch_sort_title_dir);
+		orderList[3] = getString(R.string.jv_relaunch_sort_title_rev);
+		AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+		builder.setTitle(R.string.jv_relaunch_sort_header);
+		builder.setSingleChoiceItems(orderList, -1,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int i) {
+						if ((i == 0) || (i == 2)) {
+							sortType[0] = "sname";
+							sortOrder[0] = true;
+						} else if ((i == 1) || (i == 3)) {
+							sortType[0] = "sname";
+							sortOrder[0] = false;
+						}
+						dialog.dismiss();
+						drawDirectory(currentRoot, -1);
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string.jv_relaunch_cancel),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.dismiss();
+					}
+				});
+		builder.show();
+	}
+
+	@Override
+	public void onDestroy() {
+		dataBase.db.close();
+		unregisterReceiver(this.SDCardChangeReceiver);
+		unregisterReceiver(this.PowerChangeReceiver);
+		unregisterReceiver(this.WiFiChangeReceiver);
+		super.onDestroy();
+	}
+	
 }

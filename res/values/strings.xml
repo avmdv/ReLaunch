@@ -205,6 +205,11 @@
     <string name="jv_relaunch_switch_titles_on">Show book titles</string>
     <string name="jv_relaunch_switch_titles_off">Show file names</string>
     <string name="jv_relaunch_tags_rename">Rename file with fb2/epub tags...</string>
+    <string name="jv_relaunch_sort_header">Sort the files in the order by</string>
+    <string name="jv_relaunch_sort_file_dir">filename A-Z</string>
+    <string name="jv_relaunch_sort_file_rev">filename Z-A</string>
+    <string name="jv_relaunch_sort_title_dir">book title A-Z</string>
+    <string name="jv_relaunch_sort_title_rev">book title Z-A</string>
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Reader launcher for Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>

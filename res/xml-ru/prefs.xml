@@ -128,6 +128,15 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="showFullDirPath"
+            android:persistent="true"
+            android:summaryOff="Показывать имя текущей папки в заголовке"
+            android:summaryOn="Показывать полный путь к папке в заголовке"
+            android:title="Показывать полный путь к папке в заголовке" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"

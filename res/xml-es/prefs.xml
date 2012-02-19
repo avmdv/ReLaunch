@@ -129,6 +129,15 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="showFullDirPath"
+            android:persistent="true"
+            android:summaryOff="Show current directory name in title"
+            android:summaryOn="Show full directory path in title"
+            android:title="Show full directory path in title" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"
