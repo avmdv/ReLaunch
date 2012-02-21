@@ -161,6 +161,7 @@
     <string name="jv_relaunch_createintent">Create Intent ...</string>
     <string name="jv_relaunch_copy">Copy</string>
     <string name="jv_relaunch_move">Move</string>
+    <string name="jv_relaunch_move_dir">Move</string>
     <string name="jv_relaunch_paste">Paste</string>
     <string name="jv_relaunch_rename">Rename...</string>
     <string name="jv_relaunch_create_folder">Create new folder...</string>

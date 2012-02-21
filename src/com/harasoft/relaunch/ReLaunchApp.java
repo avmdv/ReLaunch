@@ -530,7 +530,6 @@ public class ReLaunchApp extends Application {
 	}
 	
 	public boolean createDir(String dst) {
-		boolean ret = false;
 		File dir = new File(dst);
 		return dir.mkdir();
 	}

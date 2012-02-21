@@ -161,6 +161,7 @@
     <string name="jv_relaunch_createintent">Создать событие...</string>
     <string name="jv_relaunch_copy">Копировать</string>
     <string name="jv_relaunch_move">Переместить</string>
+    <string name="jv_relaunch_move_dir">Переместить</string>
     <string name="jv_relaunch_paste">Вставить</string>
     <string name="jv_relaunch_create_folder">Создать новую папку...</string>
     <string name="jv_relaunch_create_folder_title">Введите имя новой папки</string>
@@ -204,7 +205,7 @@
     <string name="jv_relaunch_next">след.</string>
     <string name="jv_relaunch_switch_titles_on">Показать названия книг</string>
     <string name="jv_relaunch_switch_titles_off">Показать файлы</string>
-    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub...</string>
+    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub…</string>
     <string name="jv_relaunch_sort_header">Сортировать файлы по</string>
     <string name="jv_relaunch_sort_file_dir">имени файла А-Я</string>
     <string name="jv_relaunch_sort_file_rev">имени файла Я-А</string>
