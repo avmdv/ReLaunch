@@ -47,7 +47,7 @@
                 <Button
                     android:id="@+id/types_ext"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="2.7dp"
                     android:layout_weight="1"
@@ -112,7 +112,7 @@
                 <Button
                     android:id="@+id/types_app"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="2.7dp"
                     android:layout_weight="1" >

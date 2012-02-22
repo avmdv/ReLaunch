@@ -243,6 +243,8 @@
     <string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_results_delete_ne_dir_text2">(потенциально опасное действие)\?</string>
     <string name="jv_results_activity_not_found">Действие не найдено</string>
+    <string name="jv_results_menu_title">Выберите файл</string>
+    <string name="jv_results_menu_button">Отмена</string>
     <string name="jv_search_in_progress">Производится поиск</string>
     <string name="jv_search_cancel">Отмена</string>
     <string name="jv_search_results">Результаты поиска</string>

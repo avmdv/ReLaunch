@@ -233,6 +233,8 @@
     <string name="jv_results_delete_file_title">Delete file warning</string>
     <string name="jv_results_delete_file_text1">Are you sure to delete file</string>
     <string name="jv_results_delete_file_text2">\?</string>
+    <string name="jv_results_menu_title">Select file</string>
+    <string name="jv_results_menu_button">Cancel</string>
     <string name="jv_results_yes">YES</string>
     <string name="jv_results_no">NO</string>
     <string name="jv_results_remove">Remove from favorites</string>

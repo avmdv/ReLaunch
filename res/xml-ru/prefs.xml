@@ -97,8 +97,8 @@
                 android:defaultValue="false" 
                 android:key="showBookTitles" 
                 android:persistent="true" 
-                android:summaryOff="Показывать названия книг" 
-                android:summaryOn="Показывать имена файлов"
+                android:summaryOn="Показывать названия книг" 
+                android:summaryOff="Показывать имена файлов"
                 android:disableDependentsState="false" >
         </CheckBoxPreference>
         
