@@ -152,7 +152,6 @@ public class ReLaunch extends Activity {
 	TextView battLevel;
 	IntentFilter batteryLevelFilter;
 	
-	BooksBase dataBase;
 	String fileOpFile;
 	String fileOpDir;
 	int fileOp;
@@ -1834,7 +1833,10 @@ public class ReLaunch extends Activity {
 			useDirViewer = data.getBooleanExtra("dirviewer", false);
 		}
 
-		dataBase = new BooksBase(this);
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
+		if (!app.dataBase.db.isOpen())
+			app.dataBase = new BooksBase(this);
 		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
 
 		// Global arrays
@@ -3296,7 +3298,7 @@ public class ReLaunch extends Activity {
 			String dst = dname + "/" + fileOpFile;
 			boolean retCode = false;
 			if (fileOp == CNTXT_MENU_COPY_FILE)
-				retCode = app.copyFile(src, dst);
+				retCode = app.copyFile(src, dst, false);
 			else if ((fileOp == CNTXT_MENU_MOVE_FILE) || (fileOp == CNTXT_MENU_MOVE_DIR))
 				retCode = app.moveFile(src, dst);
 			if (retCode) {
@@ -4368,14 +4370,14 @@ public class ReLaunch extends Activity {
 		if ((!file.endsWith("fb2")) && (!file.endsWith("fb2.zip")) &&(!file.endsWith("epub")))
 			return file;
 		String fileName = dir + "/" + file;
-		eBook = dataBase.getBookByFileName(dir + "/" + file);
+		eBook = app.dataBase.getBookByFileName(dir + "/" + file);
 		if (!eBook.isOk) {
 			Parser parser = new InstantParser();
 			eBook = parser.parse(fileName);
 			if (eBook.isOk) {
 				if ((eBook.sequenceNumber != null) && (eBook.sequenceNumber.length() == 1))
 					eBook.sequenceNumber = "0" + eBook.sequenceNumber;
-					dataBase.addBook(eBook);
+					app.dataBase.addBook(eBook);
 			}
 		}
 		if (eBook.isOk) {
@@ -4478,10 +4480,13 @@ public class ReLaunch extends Activity {
 
 	@Override
 	public void onDestroy() {
-		dataBase.db.close();
+		app.dataBase.db.close();
 		unregisterReceiver(this.SDCardChangeReceiver);
 		unregisterReceiver(this.PowerChangeReceiver);
 		unregisterReceiver(this.WiFiChangeReceiver);
+		wifiReceiverRegistered = false;
+		powerReceiverRegistered = false;
+		mountReceiverRegistered = false;
 		super.onDestroy();
 	}
 	

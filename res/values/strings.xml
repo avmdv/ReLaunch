@@ -31,7 +31,7 @@
     <string name="prefs_layout_cancel">Cancel</string>
     <string name="prefs_layout_ok">OK</string>
     <string name="prefs_layout_save_restart">Save settings and restart ReLaunch (some settings work only after restart)</string>
-    <string name="prefs_layout_revert_default">Revert all settings to default values</string>
+    <string name="prefs_layout_revert_default">Reset/Backup\n/Restore Settings</string>
     <string name="search_layout_case_sensitive">Case sensitive</string>
     <string name="search_layout_search_known">Search known extensions only</string>
     <string name="search_layout_sort_search">Sort search results</string>
@@ -141,6 +141,13 @@
     <string name="jv_prefs_yes">Yes</string>
     <string name="jv_prefs_no">No</string>
     <string name="jv_prefs_cancel">Cancel</string>
+    <string name="jv_prefs_rsr_reset">Revert all settings to default values</string>
+    <string name="jv_prefs_rsr_save">Save settings to SD Card</string>
+    <string name="jv_prefs_rsr_restore">Restore settings from SD Card</string>
+    <string name="jv_prefs_rsr_ok_title">Success!</string>
+    <string name="jv_prefs_rsr_ok_text">Operation finished successfully</string>
+    <string name="jv_prefs_rsr_fail_title">Error!</string>
+    <string name="jv_prefs_rsr_fail_text">Unable to perfom operation</string>
     <string name="jv_relaunch_wrong_model">Wrong model!</string>
     <string name="jv_relaunch_yes">YES</string>
     <string name="jv_relaunch_no">NO</string>

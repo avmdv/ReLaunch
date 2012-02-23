@@ -31,7 +31,7 @@
     <string name="prefs_layout_cancel">Отмена</string>
     <string name="prefs_layout_ok">OK</string>
     <string name="prefs_layout_save_restart">Сохранить и перезапустить</string>
-    <string name="prefs_layout_revert_default">Вернуть настройки по умолчанию</string>
+    <string name="prefs_layout_revert_default">Сброс/Сохр./Восст.\n настроек</string>
     <string name="search_layout_case_sensitive">Регистр различается</string>
     <string name="search_layout_search_known">Только файлы известных расширений</string>
     <string name="search_layout_sort_search">Отсортировать результаты</string>
@@ -141,6 +141,13 @@
     <string name="jv_prefs_yes">Да</string>
     <string name="jv_prefs_no">Нет</string>
     <string name="jv_prefs_cancel">Отмена</string>
+    <string name="jv_prefs_rsr_reset">Вернуть настройки по умолчанию</string>
+    <string name="jv_prefs_rsr_save">Сохранить настройки на карту памяти</string>
+    <string name="jv_prefs_rsr_restore">Восстановить настройки с карты памяти</string>
+    <string name="jv_prefs_rsr_ok_title">Выполнено!</string>
+    <string name="jv_prefs_rsr_ok_text">Операция выполнена успешно</string>
+    <string name="jv_prefs_rsr_fail_title">Ошибка!</string>
+    <string name="jv_prefs_rsr_fail_text">Не удалось выполнить операцию</string>
     <string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
     <string name="jv_relaunch_yes">Да</string>
     <string name="jv_relaunch_no">Нет</string>
