@@ -106,7 +106,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Формат заголовка книги" 
                 android:dependency="showBookTitles"
-                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии"> 
+                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="[%a. ]%t"> 
         </EditTextPreference>
         
         <CheckBoxPreference

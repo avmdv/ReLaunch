@@ -524,6 +524,11 @@ public class ResultsActivity extends Activity {
 		setContentView(R.layout.results_layout);
 
 		icons = app.getIcons();
+
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
+		if (!app.dataBase.db.isOpen())
+			app.dataBase = new BooksBase(this);
 		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
 
 		// Recreate readers list
