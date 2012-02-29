@@ -173,6 +173,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("customScroll", app.customScrollDef));
 		defItems.add(new PrefItem("scrollWidth", "25"));
 		defItems.add(new PrefItem("scrollPad", "10"));
+		defItems.add(new PrefItem("useSonyButtons", false));
 
 		// Search setting
 		defItems.add(new PrefItem("searchSize", "5000"));
@@ -379,6 +380,9 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 			savedItems.add(s);
 		}
+
+		Preference prefCleanupDatabase = findPreference("cleanupDatabase");
+		prefCleanupDatabase.setOnPreferenceClickListener(cleanupDatabaseListener);
 
 		final Context context = this;
 		((Button) findViewById(R.id.filter_settings))
@@ -1378,4 +1382,34 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 		}
 	}
+
+	public Preference.OnPreferenceClickListener cleanupDatabaseListener = new Preference.OnPreferenceClickListener() {
+	    public boolean onPreferenceClick(Preference pref) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					PrefsActivity.this);
+			builder.setTitle(getResources().getString(
+					R.string.jv_prefs_cleanup_database_title));
+			builder.setMessage(getResources().getString(
+					R.string.jv_prefs_cleanup_database_text));
+			builder.setPositiveButton(
+					getResources().getString(R.string.jv_prefs_yes),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							app.dataBase.resetDb();
+							dialog.dismiss();
+						}
+					});
+			builder.setNegativeButton(
+					getResources().getString(R.string.jv_relaunch_no),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							dialog.dismiss();
+						}
+					});
+			builder.show();
+			return true;
+	    }
+	};
 }
