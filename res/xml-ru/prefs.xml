@@ -118,7 +118,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Формат заголовка книги" 
                 android:dependency="showBookTitles"
-                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="[%a. ]%t"> 
+                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="%t\n[%a][. %s][-%n]"> 
         </EditTextPreference>
 
         <CheckBoxPreference
@@ -309,7 +309,7 @@
         	android:layout="@+layout/pref_child"
             android:title="Ускорить отображение списка файлов"
             android:key="speedupDisplay"
-            android:defaultValue="true">
+            android:defaultValue="false">
         </CheckBoxPreference>    
         
         <CheckBoxPreference

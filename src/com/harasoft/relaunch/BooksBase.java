@@ -1,26 +1,6 @@
 package com.harasoft.relaunch;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
 import ebook.EBook;
 import ebook.Person;
 import ebook.parser.InstantParser;
@@ -31,27 +11,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.MeasureSpec;
-import android.widget.TextView;
 
 public class BooksBase {
 	Context context;
 	DbHelper dbHelper;
 	public static SQLiteDatabase db;
 
-	private final int COVER_W = 200;
-	private final int COVER_H = 280;
-
 	private Pattern purgeBracketsPattern = Pattern
 			.compile("\\[[\\s\\.\\-_]*\\]");
 
 	private class DbHelper extends SQLiteOpenHelper {
-		final static int VERSION = 2;
+		final static int VERSION = 1;
 
 		public DbHelper(Context context) {
 			super(context, "library.db", null, VERSION);
@@ -71,17 +41,13 @@ public class BooksBase {
 					+ "NUMBER text default '')");
 			db.execSQL("create table if not exists COVERS ("
 					+ "ID integer primary key autoincrement, "
-					+ "BOOK integer unique, " + "COVER blob, "
-					+ "COVERTYPE integer default '0')");
+					+ "BOOK integer unique, " + "COVER blob)");
 			db.execSQL("create index if not exists INDEX1 on BOOKS(FILE)");
 			db.execSQL("create index if not exists INDEX3 on COVERS(BOOK)");
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			if ((newVersion == 2) && (oldVersion == 1)) {
-				db.execSQL("alter table COVERS add column COVERTYPE integer default '0'");
-			}
 		}
 	}
 

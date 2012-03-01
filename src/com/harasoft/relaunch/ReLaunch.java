@@ -173,6 +173,7 @@ public class ReLaunch extends Activity {
 					Toast.LENGTH_SHORT).show();
 			wifiManager.setWifiEnabled(true);
 		}
+		refreshBottomInfo();
 	}
 
 	private void actionLock() {
@@ -350,7 +351,7 @@ public class ReLaunch extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if (prefs.getBoolean("speedupDisplay", true)) {
+			if (prefs.getBoolean("speedupDisplay", false)) {
 				if ((cachedViews != null) && (cachedViews[position] != null))
 					return cachedViews[position];
 			}
@@ -1101,7 +1102,7 @@ public class ReLaunch extends Activity {
 				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
 			if (prefs.getBoolean("showBookTitles", false))
-				item.put("sname", app.dataBase.getEbookName(dir.getAbsolutePath(), f, prefs.getString("bookTitleFormat", "[%a. ]%t")));
+				item.put("sname", app.dataBase.getEbookName(dir.getAbsolutePath(), f, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]")));
 			else
 				item.put("sname", f);
 			item.put("name", f);
@@ -3277,7 +3278,7 @@ public class ReLaunch extends Activity {
 					fitem.put("type", "file");
 					fitem.put("reader", app.readerName(fileOpFile));
 					if (prefs.getBoolean("showBookTitles", false))
-						fitem.put("sname", app.dataBase.getEbookName(dname, fileOpFile, prefs.getString("bookTitleFormat", "[%a. ]%t")));
+						fitem.put("sname", app.dataBase.getEbookName(dname, fileOpFile, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]")));
 					else
 						fitem.put("sname", fileOpFile);
 				} else if (fileOp == CNTXT_MENU_MOVE_DIR) {
@@ -3311,7 +3312,7 @@ public class ReLaunch extends Activity {
 		case CNTXT_MENU_TAGS_RENAME: {
 			final Context mThis = this;
 			final String oldFullName = dname + "/" + fname;
-			String newName = app.dataBase.getEbookName(dname, fname, prefs.getString("bookTitleFormat", "[%a. ]%t"));
+			String newName = app.dataBase.getEbookName(dname, fname, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]"));
 			newName = newName.replaceAll("[\n\r]", "");
 			if (fname.endsWith("fb2"))
 				newName = newName.concat(".fb2");
@@ -3786,71 +3787,6 @@ public class ReLaunch extends Activity {
 		powerReceiverRegistered = false;
 		mountReceiverRegistered = false;
 		super.onDestroy();
-	}
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		class RepeatedDownScroll {
-			public void doIt(int first, int target, int shift) {
-				final GridView gv = (GridView) findViewById(R.id.gl_list);
-				int total = gv.getCount();
-				int last = gv.getLastVisiblePosition();
-				if (total == last + 1)
-					return;
-				final int ftarget = target + shift;
-				gv.clearFocus();
-				gv.post(new Runnable() {
-					public void run() {
-						gv.setSelection(ftarget);
-					}
-				});
-				final int ffirst = first;
-				final int fshift = shift;
-				gv.postDelayed(new Runnable() {
-					public void run() {
-						int nfirst = gv.getFirstVisiblePosition();
-						if (nfirst == ffirst) {
-							RepeatedDownScroll ds = new RepeatedDownScroll();
-							ds.doIt(ffirst, ftarget, fshift + 1);
-						}
-					}
-				}, 150);
-			}
-		}
-
-		if ((DeviceInfo.EINK_SONY) && (prefs.getBoolean("useSonyButtons", false))) {
-			int prevCode = 0x0069;
-			int nextCode = 0x006a;
-			GridView gv = (GridView) findViewById(R.id.gl_list);
-			if ((event.getScanCode() == prevCode) && (event.getAction() == KeyEvent.ACTION_DOWN)) {
-				int first = gv.getFirstVisiblePosition();
-				int visible = gv.getLastVisiblePosition()
-						- gv.getFirstVisiblePosition() + 1;
-				int total = itemsArray.size();
-				first -= visible;
-				if (first < 0)
-					first = 0;
-				gv.setSelection(first);
-				// some hack workaround against not scrolling in some cases
-				if (total > 0) {
-					gv.requestFocusFromTouch();
-					gv.setSelection(first);
-				}
-			}
-			if ((event.getScanCode() == nextCode) && (event.getAction() == KeyEvent.ACTION_DOWN)) {
-				int first = gv.getFirstVisiblePosition();
-				int total = itemsArray.size();
-				int last = gv.getLastVisiblePosition();
-				if (total == last + 1)
-					return true;
-				int target = last + 1;
-				if (target > (total - 1))
-					target = total - 1;
-				RepeatedDownScroll ds = new RepeatedDownScroll();
-				ds.doIt(first, target, 0);
-			}
-		}
-		return super.dispatchKeyEvent(event);
 	}
 
 	private void setSortMode(int i) {

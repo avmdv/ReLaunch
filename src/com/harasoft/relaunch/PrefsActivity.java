@@ -91,7 +91,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("showNew", true));
         defItems.add(new PrefItem("showBookTitles", false));
         defItems.add(new PrefItem("showBookCovers", false));
-        defItems.add(new PrefItem("bookTitleFormat", "[%a. ]%t"));
+        defItems.add(new PrefItem("bookTitleFormat", "%t[\n%a][. %s][-%n]"));
 		defItems.add(new PrefItem("hideKnownExts", false));
 		defItems.add(new PrefItem("hideKnownDirs", false));
 		defItems.add(new PrefItem("showFullDirPath", false));
@@ -173,7 +173,6 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("customScroll", app.customScrollDef));
 		defItems.add(new PrefItem("scrollWidth", "25"));
 		defItems.add(new PrefItem("scrollPad", "10"));
-		defItems.add(new PrefItem("useSonyButtons", false));
 
 		// Search setting
 		defItems.add(new PrefItem("searchSize", "5000"));
