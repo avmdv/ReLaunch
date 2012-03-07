@@ -336,12 +336,10 @@ public class ReLaunch extends Activity {
 	}
 
 	class FLSimpleAdapter extends SimpleAdapter {
-		View[] cachedViews;
 		
 		FLSimpleAdapter(Context context, List<HashMap<String, String>> data,
 				int resource, String[] from, int[] to) {
 			super(context, data, resource, from, to);
-			this.cachedViews = new View[getCount()];
 		}
 
 		@Override
@@ -351,12 +349,9 @@ public class ReLaunch extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if (prefs.getBoolean("speedupDisplay", false)) {
-				if ((cachedViews != null) && (cachedViews[position] != null))
-					return cachedViews[position];
-			}
 			ViewHolder holder;
 			View v = convertView;
+//			if ((prefs.getBoolean("showBookTiles", false)) || (v == null)) {
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater) getApplicationContext()
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -570,7 +565,8 @@ public class ReLaunch extends Activity {
 				}
 				if (sname2.equalsIgnoreCase("")) {
 					tv2.setVisibility(View.GONE);
-					tv2.getLayoutParams().height = 0;
+				} else {
+					tv2.setVisibility(View.VISIBLE);
 				}
 			}
 			// fixes on rows height in grid
@@ -596,7 +592,6 @@ public class ReLaunch extends Activity {
 					v.setMinimumHeight(recalc_height + after_row_space);
 				}
 			}
-			this.cachedViews[position] = v;
 			return v;
 		}
 	}
@@ -907,7 +902,7 @@ public class ReLaunch extends Activity {
 		final Button tv = (Button) findViewById(useDirViewer ? R.id.results_title
 				: R.id.title_txt);
 		final String dirAbsPath = dir.getAbsolutePath();
-		if (prefs.getBoolean("showFullDirPath", false))
+		if (!prefs.getBoolean("showBookTitles", false))
 			tv.setText(dirAbsPath + " ("
 				+ ((allEntries == null) ? 0 : allEntries.length) + ")");
 		else
@@ -1800,7 +1795,7 @@ public class ReLaunch extends Activity {
 			useLibrary = data.getBooleanExtra("library", false);
 			useDirViewer = data.getBooleanExtra("dirviewer", false);
 		}
-
+		
 		// Global arrays
 		allowedModels = getResources().getStringArray(R.array.allowed_models);
 		allowedDevices = getResources().getStringArray(R.array.allowed_devices);
@@ -1823,6 +1818,8 @@ public class ReLaunch extends Activity {
 
 		// Preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		if (prefs.getString("startMode", "UNKNOWN").equalsIgnoreCase("LAUNCHER"))
+			useHome = true;
 		String typesString = prefs.getString("types", defReaders);
 		try {
 			app.scrollStep = Integer.parseInt(prefs.getString("scrollPerc",
