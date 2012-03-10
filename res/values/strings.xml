@@ -151,6 +151,9 @@
 	<string name="jv_prefs_rsr_fail_text">Unable to perfom operation</string>
 	<string name="jv_prefs_cleanup_database_title">Database operations</string>
 	<string name="jv_prefs_cleanup_database_text">Do you really want to cleanup cache?</string>
+	<string name="jv_prefs_clear_lists_title">Lists operations</string>
+	<string name="jv_prefs_clear_lru_text">Do you really want to clear \"Last Opened\" list?</string>
+	<string name="jv_prefs_clear_favorites_text">Do you really want to clear Favorites list?</string>
 	<string name="jv_relaunch_wrong_model">Wrong model!</string>
 	<string name="jv_relaunch_yes">YES</string>
 	<string name="jv_relaunch_no">NO</string>
@@ -219,8 +222,8 @@
 	<string name="jv_relaunch_sort_header">Sort the files in the order by</string>
 	<string name="jv_relaunch_sort_file_dir">filename A-Z</string>
 	<string name="jv_relaunch_sort_file_rev">filename Z-A</string>
-	<string name="jv_relaunch_sort_title_dir">book title A-Z</string>
-	<string name="jv_relaunch_sort_title_rev">book title Z-A</string>
+	<string name="jv_relaunch_sort_title_dir">by alphabetical order A-Z</string>
+	<string name="jv_relaunch_sort_title_rev">by alphabetical order Z-A</string>
 	<string name="jv_rla_activity">Activity</string>
 	<string name="jv_rla_not_found">not found!</string>
 	<string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Reader launcher for Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
@@ -437,6 +440,8 @@
 	<string name="pref_i_saveSettings_title">Save settings to sd-card</string>
 	<string name="pref_i_loadSettings_title">Load settings from sd-card</string>
 	<string name="pref_i_restart_title">Save settings and restart</string>
+	<string name="pref_i_cleanupLRU_title">Clear the list of last opened files</string>
+	<string name="pref_i_cleanupFAV_title">Clear the list of favorites files</string>
 	<string name="pref_c_mGeneral_title">General settings</string>		
 	<string name="pref_c_mSystem_title">System settings</string>
 	<string name="pref_s_screenAdvanced_title">&gt; Advanced settings</string>

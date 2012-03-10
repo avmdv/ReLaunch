@@ -280,6 +280,70 @@ public class PrefsActivity extends PreferenceActivity implements
 					}
 				});
 
+		findPreference("cleanupLRU").setOnPreferenceClickListener(
+				new Preference.OnPreferenceClickListener() {
+					public boolean onPreferenceClick(Preference pref) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								PrefsActivity.this);
+						builder.setTitle(getResources().getString(
+								R.string.jv_prefs_clear_lists_title));
+						builder.setMessage(getResources().getString(
+								R.string.jv_prefs_clear_lru_text));
+						builder.setPositiveButton(
+								getResources().getString(R.string.jv_prefs_yes),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										app.setDefault("lastOpened");
+										dialog.dismiss();
+									}
+								});
+						builder.setNegativeButton(
+								getResources().getString(
+										R.string.jv_relaunch_no),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								});
+						builder.show();
+						return true;
+					}
+				});
+
+		findPreference("cleanupFAV").setOnPreferenceClickListener(
+				new Preference.OnPreferenceClickListener() {
+					public boolean onPreferenceClick(Preference pref) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								PrefsActivity.this);
+						builder.setTitle(getResources().getString(
+								R.string.jv_prefs_clear_lists_title));
+						builder.setMessage(getResources().getString(
+								R.string.jv_prefs_clear_favorites_text));
+						builder.setPositiveButton(
+								getResources().getString(R.string.jv_prefs_yes),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										app.setDefault("favorites");
+										dialog.dismiss();
+									}
+								});
+						builder.setNegativeButton(
+								getResources().getString(
+										R.string.jv_relaunch_no),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								});
+						builder.show();
+						return true;
+					}
+				});
+
 		findPreference("fileFilter").setOnPreferenceClickListener(
 				new Preference.OnPreferenceClickListener() {
 					public boolean onPreferenceClick(Preference pref) {
@@ -648,8 +712,6 @@ public class PrefsActivity extends PreferenceActivity implements
 							.setChecked(true);
 					((CheckBoxPreference) findPreference("openWith"))
 							.setChecked(true);
-					((CheckBoxPreference) findPreference("createIntent"))
-							.setChecked(true);
 					do_pref_subrequest = true;
 				} else if (value.equals("BOOKS")) {
 					do_pref_subrequest = false;
@@ -660,8 +722,6 @@ public class PrefsActivity extends PreferenceActivity implements
 					((CheckBoxPreference) findPreference("useFileManagerFunctions"))
 							.setChecked(false);
 					((CheckBoxPreference) findPreference("openWith"))
-							.setChecked(false);
-					((CheckBoxPreference) findPreference("createIntent"))
 							.setChecked(false);
 					do_pref_subrequest = true;
 				}

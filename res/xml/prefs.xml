@@ -100,20 +100,6 @@
 					android:summaryOff="@string/pref_i_returnFileToMain_off"
 					android:summaryOn="@string/pref_i_returnFileToMain_on"
 					android:title="@string/pref_i_returnFileToMain_title" />
-
-				<Preference
-					android:key="fileAssociations"
-					android:layout="@+layout/pref_child"
-					android:title="@string/pref_i_fileAssociations_title" />
-
-				<CheckBoxPreference
-					android:defaultValue="false"
-					android:key="askAmbig"
-					android:layout="@+layout/pref_child"
-					android:persistent="true"
-					android:summaryOff="@string/pref_i_askAmbig_off"
-					android:summaryOn="@string/pref_i_askAmbig_on"
-					android:title="@string/pref_i_askAmbig_title" />
 				<CheckBoxPreference
 					android:defaultValue="false"
 					android:key="showBookTitles"
@@ -124,7 +110,7 @@
 					android:title="@string/pref_i_showBookTitles_title" />
 
 				<EditTextPreference
-					android:defaultValue="%t\n[%a][. %s][-%n]"
+					android:defaultValue="[%a. ]%t[\n[%s][-%n]]"
 					android:key="bookTitleFormat"
 					android:layout="@+layout/pref_child"
 					android:summary="@string/pref_i_bookTitleFormat_sum"
@@ -139,7 +125,7 @@
 					android:summaryOn="@string/pref_i_openWith_on"
 					android:title="@string/pref_i_openWith_title" />
 				<CheckBoxPreference
-					android:defaultValue="true"
+					android:defaultValue="false"
 					android:key="createIntent"
 					android:layout="@+layout/pref_child"
 					android:persistent="true"
@@ -285,14 +271,19 @@
 					android:title="@string/pref_i_rowSeparator_title" />
 			</PreferenceScreen>
 			<PreferenceScreen android:title="@string/pref_s_file_title" >
+				<Preference
+					android:key="fileAssociations"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_fileAssociations_title" />
+
 				<CheckBoxPreference
 					android:defaultValue="false"
-					android:key="showHidden"
+					android:key="askAmbig"
 					android:layout="@+layout/pref_child"
 					android:persistent="true"
-					android:summaryOff="@string/pref_i_showHidden_off"
-					android:summaryOn="@string/pref_i_showHidden_on"
-					android:title="@string/pref_i_showHidden_title" />
+					android:summaryOff="@string/pref_i_askAmbig_off"
+					android:summaryOn="@string/pref_i_askAmbig_on"
+					android:title="@string/pref_i_askAmbig_title" />
 
 				<Preference
 					android:key="fileFilter"
@@ -307,6 +298,14 @@
 					android:summaryOff="@string/pref_i_filterResults_off"
 					android:summaryOn="@string/pref_i_filterResults_on"
 					android:title="@string/pref_i_filterResults_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="showHidden"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_showHidden_off"
+					android:summaryOn="@string/pref_i_showHidden_on"
+					android:title="@string/pref_i_showHidden_title" />
 				<CheckBoxPreference
 					android:defaultValue="true"
 					android:key="hideKnownExts"
@@ -779,6 +778,14 @@
 					android:key="cleanupDatabase"
 					android:layout="@+layout/pref_child"
 					android:title="@string/pref_i_cleanupDatabase_title" />
+				<Preference
+					android:key="cleanupLRU"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_cleanupLRU_title" />
+				<Preference
+					android:key="cleanupFAV"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_cleanupFAV_title" />
 			</PreferenceScreen>
 
 			<Preference

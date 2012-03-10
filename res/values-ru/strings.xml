@@ -151,6 +151,9 @@
 	<string name="jv_prefs_rsr_fail_text">Не удалось выполнить операцию</string>
 	<string name="jv_prefs_cleanup_database_title">Операции с базой данных</string>
 	<string name="jv_prefs_cleanup_database_text">Вы действительно хотите очистить кэш?</string>
+	<string name="jv_prefs_clear_lists_title">Операции со списками</string>
+	<string name="jv_prefs_clear_lru_text">Вы действительно хотите очистить список \"Недавно открытые\"?</string>
+	<string name="jv_prefs_clear_favorites_text">Вы действительно хотите очистить список \"Избранное\"?</string>
 	<string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
 	<string name="jv_relaunch_yes">Да</string>
 	<string name="jv_relaunch_no">Нет</string>
@@ -219,8 +222,8 @@
 	<string name="jv_relaunch_sort_header">Сортировать файлы по</string>
 	<string name="jv_relaunch_sort_file_dir">имени файла А-Я</string>
 	<string name="jv_relaunch_sort_file_rev">имени файла Я-А</string>
-	<string name="jv_relaunch_sort_title_dir">названию книги А-Я</string>
-	<string name="jv_relaunch_sort_title_rev">названию книги Я-А</string>
+	<string name="jv_relaunch_sort_title_dir">алфавиту А-Я</string>
+	<string name="jv_relaunch_sort_title_rev">алфавиту Я-А</string>
 	<string name="jv_rla_activity">Действие</string>
 	<string name="jv_rla_not_found">не найдено!</string>
 	<string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
@@ -437,6 +440,8 @@
 	<string name="pref_i_resetSettings_title">Вернуть настройки по умолчанию</string>
 	<string name="pref_i_saveSettings_title">Сохранить настройки на карту памяти</string>
 	<string name="pref_i_loadSettings_title">Загрузить настройки с карты памяти</string>
+	<string name="pref_i_cleanupLRU_title">Очистить список \"Недавно открытые\"</string>
+	<string name="pref_i_cleanupFAV_title">Очистить список \"Избранное\"</string>
 	<string name="pref_i_restart_title">Сохранить настройки и перезапустить</string>
 	<string name="pref_c_mGeneral_title">Основные настройки</string>
 	<string name="pref_c_mSystem_title">Системные настройки</string>
@@ -467,7 +472,7 @@
 	<string name="arr_einkUpdateMode_names_1">Не использовать</string>
 	<string name="arr_einkUpdateMode_names_2">Качественный (GC+ONESHOT_ALL)</string>
 	<string name="arr_einkUpdateMode_names_3">Быстрый (GU+ONESHOT_ALL)</string>
-	<string name="arr_einkUpdateMode_names_4">(GL16+ACTIVE_ALL)</string>
+	<string name="arr_einkUpdateMode_names_4">Быстрый (GL16+ACTIVE_ALL)</string>
 	<string name="arr_home_button_actions_names_1">Ничего не делать</string>
 	<string name="arr_home_button_actions_names_2">Открыть начальную папку №</string>
 	<string name="arr_home_button_actions_names_3">Открыть меню выбора начальной папки</string>

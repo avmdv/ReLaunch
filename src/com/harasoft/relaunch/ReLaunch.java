@@ -53,6 +53,7 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
@@ -81,7 +82,10 @@ public class ReLaunch extends Activity {
 	static public final String FILT_FILE = "Filters.txt";
 	static public final String COLS_FILE = "Columns.txt";
 	final String defReaders = ".fb2,.fb2.zip:org.coolreader%org.coolreader.CoolReader%Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
-			+ "|.png:Intent:image/png|.pdf:Intent:application/pdf";
+			+ "|.png:Intent:image/png|.pdf:Intent:application/pdf"
+			+ "|.djv,.djvu:Intent:image/vnd.djvu|.doc:Intent:application/msword"
+			+ "|.chm,.pdb,.prc,.mobi,.azw:org.coolreader%org.coolreader.CoolReader%Cool Reader"
+			+ "|.cbz,.cbr:Intent:application/x-cbz|.cbr:Intent:application/x-cbr";
 	final static public String defReader = "org.coolreader%org.coolreader.CoolReader%Cool Reader";
 	final static public int TYPES_ACT = 1;
 	final static public int DIR_ACT = 2;
@@ -411,7 +415,7 @@ public class ReLaunch extends Activity {
 
 				String sname = item.get("sname");
 				// clean extension, if needed
-				if (prefs.getBoolean("hideKnownExts", false)) {
+				if (prefs.getBoolean("hideKnownExts", false) && !prefs.getBoolean("showBookTitles", false)) {
 					for (int i = 0; i < exts.size(); i++) {
 						if (sname.endsWith(exts.get(i))) {
 							sname = sname.substring(0, sname.length()
@@ -1342,7 +1346,7 @@ public class ReLaunch extends Activity {
 					}
 					if (prefs.getBoolean("openWith", true))
 						aList.add(getString(R.string.jv_relaunch_openwith));
-					if (prefs.getBoolean("createIntent", true))
+					if (prefs.getBoolean("createIntent", false))
 						aList.add(getString(R.string.jv_relaunch_createintent));
 					if (prefs.getBoolean("useFileManagerFunctions", true)) {
 						if (!prefs.getBoolean("showBookTitles", false))
@@ -1372,7 +1376,7 @@ public class ReLaunch extends Activity {
 					}
 					if (prefs.getBoolean("openWith", true))
 						aList.add(getString(R.string.jv_relaunch_openwith));
-					if (prefs.getBoolean("createIntent", true))
+					if (prefs.getBoolean("createIntent", false))
 						aList.add(getString(R.string.jv_relaunch_createintent));
 					if (prefs.getBoolean("useFileManagerFunctions", true)) {
 						aList.add(getString(R.string.jv_relaunch_create_folder));
@@ -3310,7 +3314,7 @@ public class ReLaunch extends Activity {
 			final Context mThis = this;
 			final String oldFullName = dname + "/" + fname;
 			String newName = app.dataBase.getEbookName(dname, fname, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]"));
-			newName = newName.replaceAll("[\n\r]", "");
+			newName = newName.replaceAll("[\n\r]", ". ");
 			if (fname.endsWith("fb2"))
 				newName = newName.concat(".fb2");
 			else if (fname.endsWith("fb2.zip"))
@@ -3375,6 +3379,8 @@ public class ReLaunch extends Activity {
 			final String oldFullName = dname + "/" + fname;
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			final EditText input = new EditText(this);
+			input.setText(fname);
+			input.selectAll();
 			builder.setView(input);
 			builder.setTitle(getResources().getString(
 					R.string.jv_relaunch_rename_title));
@@ -3803,4 +3809,70 @@ public class ReLaunch extends Activity {
 			sortOrder[0] = false;
 		}
 	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		class RepeatedDownScroll {
+			public void doIt(int first, int target, int shift) {
+				final GridView gv = (GridView) findViewById(R.id.gl_list);
+				int total = gv.getCount();
+				int last = gv.getLastVisiblePosition();
+				if (total == last + 1)
+					return;
+				final int ftarget = target + shift;
+				gv.clearFocus();
+				gv.post(new Runnable() {
+					public void run() {
+						gv.setSelection(ftarget);
+					}
+				});
+				final int ffirst = first;
+				final int fshift = shift;
+				gv.postDelayed(new Runnable() {
+					public void run() {
+						int nfirst = gv.getFirstVisiblePosition();
+						if (nfirst == ffirst) {
+							RepeatedDownScroll ds = new RepeatedDownScroll();
+							ds.doIt(ffirst, ftarget, fshift + 1);
+						}
+					}
+				}, 150);
+			}
+		}
+
+		if (DeviceInfo.EINK_SONY) {
+			int prevCode = 0x0069;
+			int nextCode = 0x006a;
+			GridView gv = (GridView) findViewById(R.id.gl_list);
+			if ((event.getScanCode() == prevCode) && (event.getAction() == KeyEvent.ACTION_DOWN)) {
+				int first = gv.getFirstVisiblePosition();
+				int visible = gv.getLastVisiblePosition()
+						- gv.getFirstVisiblePosition() + 1;
+				int total = itemsArray.size();
+				first -= visible;
+				if (first < 0)
+					first = 0;
+				gv.setSelection(first);
+				// some hack workaround against not scrolling in some cases
+				if (total > 0) {
+					gv.requestFocusFromTouch();
+					gv.setSelection(first);
+				}
+			}
+			if ((event.getScanCode() == nextCode) && (event.getAction() == KeyEvent.ACTION_DOWN)) {
+				int first = gv.getFirstVisiblePosition();
+				int total = itemsArray.size();
+				int last = gv.getLastVisiblePosition();
+				if (total == last + 1)
+					return true;
+				int target = last + 1;
+				if (target > (total - 1))
+					target = total - 1;
+				RepeatedDownScroll ds = new RepeatedDownScroll();
+				ds.doIt(first, target, 0);
+			}
+		}
+		return super.dispatchKeyEvent(event);
+	}
+
 }
