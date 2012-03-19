@@ -316,8 +316,7 @@
 	<string name="pref_i_fullScreen_on">Использовать весь экран</string>
 	<string name="pref_i_fullScreen_off">Показывать системный заголовок</string>
 	<string name="pref_i_showAddStartDir_title">Включить выбор начальной папки</string>
-	<string name="pref_i_showAddStartDir_on">Показывать в контекстном меню "Выбрать начальную
-		папку"</string>
+	<string name="pref_i_showAddStartDir_on">Показывать в контекстном меню выбор папки</string>
 	<string name="pref_i_showAddStartDir_off">Не показывать пункт "Выбрать начальную папку"
 	</string>
 	<string name="pref_i_startDir_title">Начальная папка(и)</string>
@@ -349,7 +348,7 @@
 	<string name="pref_i_showBookTitles_off">Показывать имена файлов</string>
 	<string name="pref_i_bookTitleFormat_title">Шаблон заголовка книги</string>
 	<string formatted="false" name="pref_i_bookTitleFormat_sum">%a - автор, %t - название книги,
-		%s - название серии, %n - номер в серии</string>
+		%s - название серии, %n - номер в серии, %f - имя файла</string>
 	<string name="pref_i_hideKnownExts_title">Не показывать известные расширения файлов</string>
 	<string name="pref_i_hideKnownExts_on">Для известных по ассоциациям файлов показывать
 		только имена</string>
@@ -375,11 +374,10 @@
 	<string name="pref_i_einkUpdateInterval_sum">Как часто экран будет обновляться полностью...
 		(обновлений)</string>
 	<string name="pref_i_firstLineFontSizePx_title">Размер шрифта имен файлов/папок</string>
-	<string name="pref_i_firstLineFontSizePx_sum">Размер шрифта для имен файлов и папок во всех
+	<string name="pref_i_firstLineFontSizePx_sum">Размер шрифта основной строки имен файлов и папок во всех
 		списках... px</string>
-	<string name="pref_i_secondLineFontSizePx_title">Размер шрифта дополнительных имен папок</string>
-	<string name="pref_i_secondLineFontSizePx_sum">Размер шрифта имен папок в списках \"Избранного\" и
-		т.п... px</string>
+	<string name="pref_i_secondLineFontSizePx_title">Дополнительный размер шрифта имен файлов</string>
+	<string name="pref_i_secondLineFontSizePx_sum">Размер шрифта дополнительной строки имен файлов</string>
 	<string name="pref_i_firstLineIconSizePx_title">Размер иконок имен файлов/папок</string>
 	<string name="pref_i_firstLineIconSizePx_sum">Размер иконок для имен файлов и папок во всех
 		списках... px (0 - без иконок)</string>
@@ -389,6 +387,8 @@
 	<string name="pref_i_columnsFAV_title">Список Избранного</string>
 	<string name="pref_i_columnsSearch_title">Список результатов поиска</string>
 	<string name="pref_i_columnsAlgIntensity_title">Алгоритм определения числа колонок</string>
+	<string name="pref_i_columnsAppAll_title">Все приложения</string>
+	<string name="pref_i_columnsAppFav_title">Избранные приложения</string>
 	<string name="pref_i_rowSeparator_title">Показывать разделитель строк в списке файлов
 	</string>
 	<string name="pref_i_homeButtonST_title">Одиночное нажатие кнопки \"К Началу\"</string>

@@ -287,6 +287,26 @@
 					android:selectable="true"
 					android:title="@string/pref_i_columnsSearch_title" />
 				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsAppAll"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsAppAll_title" />
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsAppFav"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsAppFav_title" />
+				<ListPreference
 					android:defaultValue="70 3:5 7:4 15:3 48:2"
 					android:enabled="true"
 					android:entries="@array/output_columns_intensity_names"
@@ -296,7 +316,7 @@
 					android:persistent="true"
 					android:selectable="true"
 					android:title="@string/pref_i_columnsAlgIntensity_title" />
-
+				
 				<CheckBoxPreference
 					android:defaultValue="false"
 					android:key="rowSeparator"

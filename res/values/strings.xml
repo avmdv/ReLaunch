@@ -341,7 +341,7 @@
 	<string name="pref_i_showBookTitles_off">Show file names</string>
 	<string name="pref_i_bookTitleFormat_title">Format of title of the book</string>
 	<string formatted="false" name="pref_i_bookTitleFormat_sum">%a - author\'s name, %t - book
-		title, %s - series title, %n - number in series</string>
+		title, %s - series title, %n - number in series, %f - filename</string>
 	<string name="pref_i_hideKnownExts_title">Hide known extensions</string>
 	<string name="pref_i_hideKnownExts_on">Hide known extensions (by associaciations)</string>
 	<string name="pref_i_hideKnownExts_off">Show full file names, with extensions</string>
@@ -364,10 +364,9 @@
 	<string name="pref_i_firstLineFontSizePx_title">Files and directories names font size</string>
 	<string name="pref_i_firstLineFontSizePx_sum">Font size for files and directories names in all
 		lists... px</string>
-	<string name="pref_i_secondLineFontSizePx_title">Additional directories names font size... px
+	<string name="pref_i_secondLineFontSizePx_title">Additional font size for files... px
 	</string>
-	<string name="pref_i_secondLineFontSizePx_sum">Font size for additional directories names in
-		Favorites and so on lists</string>
+	<string name="pref_i_secondLineFontSizePx_sum">Font size for additional line in file names</string>
 	<string name="pref_i_firstLineIconSizePx_title">Files and directories icons size</string>
 	<string name="pref_i_firstLineIconSizePx_sum">Icon size for files and directories... px (0 -
 		disable icon)</string>
@@ -377,6 +376,8 @@
 	<string name="pref_i_columnsFAV_title">Favorites list</string>
 	<string name="pref_i_columnsSearch_title">Search results list</string>
 	<string name="pref_i_columnsAlgIntensity_title">Determining the number of columns</string>
+	<string name="pref_i_columnsAppAll_title">All applications</string>
+	<string name="pref_i_columnsAppFav_title">Favorites applications</string>
 	<string name="pref_i_rowSeparator_title">Show separator between rows in files list</string>
 	<string name="pref_i_homeButtonST_title">Home Button Single Tap</string>
 	<string name="pref_i_homeButtonDT_title">Home Button Double Tap</string>
