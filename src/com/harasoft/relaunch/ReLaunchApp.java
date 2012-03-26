@@ -806,9 +806,7 @@ public class ReLaunchApp extends Application {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		SharedPreferences.Editor editor = prefs.edit();
-		String startDirs = prefs.getString("startDir", "/sdcard,/media/My Files");
-		startDirs = startDirs + "," + dir;
-		editor.putString("startDir", startDirs);
+		editor.putString("startDir", dir);
 		editor.commit();
 	}
 
