@@ -505,7 +505,7 @@ public class ReLaunch extends Activity {
 							String rdrName = item.get("reader");
 							if (rdrName.equals("Nope")) {
 								File f = new File(item.get("fname"));
-								if (f.length() > app.viewerMax)
+								if (f.length() > app.viewerMax*1024)
 									iv.setImageBitmap(scaleDrawableById(
 											R.drawable.file_notok,
 											Integer.parseInt(prefs
@@ -1285,7 +1285,27 @@ public class ReLaunch extends Activity {
 			}
 
 			@Override
+			public boolean onDoubleTap(MotionEvent e) {
+				int position = findViewByXY(e);
+				if (position != -1) {
+					HashMap<String, String> item = itemsArray.get(position);
+					String file = item.get("dname") + "/" + item.get("name");
+					if (file.endsWith("fb2") || file.endsWith("fb2.zip") || file.endsWith("epub")) {
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putInt("posInFolder", gv.getFirstVisiblePosition());
+						editor.commit();
+						pushCurrentPos(gv, false);
+						showBookInfo(file);
+					}
+				}
+				return true;
+			}
+
+			
+			@Override
 			public void onLongPress(MotionEvent e) {
+				if (!ReLaunch.this.hasWindowFocus())
+					return;
 				int menuType = 0;
 				int position = findViewByXY(e);
 				HashMap<String, String> item;
@@ -1840,13 +1860,13 @@ public class ReLaunch extends Activity {
 			app.scrollStep = Integer.parseInt(prefs.getString("scrollPerc",
 					"10"));
 			app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize",
-					"1048576"));
+					"1024"));
 			app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize",
-					"262144"));
+					"256"));
 		} catch (NumberFormatException e) {
 			app.scrollStep = 10;
-			app.viewerMax = 1048576;
-			app.editorMax = 262144;
+			app.viewerMax = 1024;
+			app.editorMax = 256;
 		}
 		if (app.scrollStep < 1)
 			app.scrollStep = 1;
@@ -2019,11 +2039,12 @@ public class ReLaunch extends Activity {
 
 					@Override
 					public void onLongPress(MotionEvent e) {
-						processEvent("appFavButtonLT");
+						if (ReLaunch.this.hasWindowFocus())
+							processEvent("appFavButtonLT");
 					}
 				};
 				FavaSimpleOnGestureListener fava_gl = new FavaSimpleOnGestureListener();
-				final GestureDetector fava_gd = new GestureDetector(fava_gl);
+				final GestureDetector fava_gd = new GestureDetector(this, fava_gl);
 				fava_button.setOnTouchListener(new OnTouchListener() {
 					public boolean onTouch(View v, MotionEvent event) {
 						fava_gd.onTouchEvent(event);
@@ -2906,6 +2927,7 @@ public class ReLaunch extends Activity {
 		switch (itemId) {
 		case CNTXT_MENU_ADD_STARTDIR:
 			app.addStartDir(fullName);
+			drawDirectory(fullName, -1);
 			break;
 		case CNTXT_MENU_ADD:
 			if (type.equals("file"))

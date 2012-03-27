@@ -112,7 +112,7 @@
 	<string name="jv_editor_file_too_big">Файл слишком большой</string>
 	<string name="jv_editor_file">Файл</string>
 	<string name="jv_editor_too_big">слишком большой</string>
-	<string name="jv_editor_bytes">байт</string>
+	<string name="jv_editor_bytes">килобайт</string>
 	<string name="jv_editor_maximum">Максимальный размер файла</string>
 	<string name="jv_editor_ok">OK</string>
 	<string name="jv_editor_save_title">Сохранение изменений</string>
@@ -306,7 +306,7 @@
 	<string name="jv_viewer_file_too_big">Файл слишком большой</string>
 	<string name="jv_viewer_file">Файл</string>
 	<string name="jv_viewer_too_big">слишком большой</string>
-	<string name="jv_viewer_bytes">байт</string>
+	<string name="jv_viewer_bytes">килобайт</string>
 	<string name="jv_viewer_maximum">Максимальный размер файла</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Файловый фильтр</string>
@@ -471,10 +471,10 @@
 	<string name="pref_i_searchRoot_sum">Поиск всегда начинается с папок...</string>
 	<string name="pref_i_viewerMaxSize_title">Ограничение просмотра файлов</string>
 	<string name="pref_i_viewerMaxSize_sum">Размер просматриваемого файла не может быть больше
-		чем... (байт)</string>
+		чем... (КБ)</string>
 	<string name="pref_i_editorMaxSize_title">Ограничение редактирования файлов</string>
 	<string name="pref_i_editorMaxSize_sum">Размер редактируемого файла не может быть больше
-		чем... (байт)</string>
+		чем... (КБ)</string>
 	<string name="pref_i_lruSize_title">Недавно открытые</string>
 	<string name="pref_i_lruSize_sum">Сохранять в списке "Недавно открытых" последние...
 		(файлов)</string>
@@ -607,7 +607,7 @@
 	<string name="pref_i_showFullDirPath_on">Показывать полный путь в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_off">Показывать имя папки в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_title">Полный путь к папке</string>
-	<string name="jv_relaunch_add_startdir">Добавить папку к Начальным папкам</string>
+	<string name="jv_relaunch_add_startdir">Установить папку Начальной папкой</string>
 	<string name="arr_appfav_button_actions_names_1">Ничего не делать</string>
 	<string name="arr_appfav_button_actions_names_2">Открыть \"Избранные приложения\"</string>
 	<string name="arr_appfav_button_actions_names_3">Выполнить приложение</string>

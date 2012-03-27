@@ -114,7 +114,7 @@
 	<string name="jv_editor_file_too_big">File too big</string>
 	<string name="jv_editor_file">File</string>
 	<string name="jv_editor_too_big">is too big for editor</string>
-	<string name="jv_editor_bytes">bytes</string>
+	<string name="jv_editor_bytes">kilobytes</string>
 	<string name="jv_editor_maximum">Maximal allowed size is</string>
 	<string name="jv_editor_ok">OK</string>
 	<string name="jv_editor_save_title">Save changes warning</string>
@@ -302,7 +302,7 @@
 	<string name="jv_viewer_file_too_big">File too big</string>
 	<string name="jv_viewer_file">File</string>
 	<string name="jv_viewer_too_big">is too big for viewer</string>
-	<string name="jv_viewer_bytes">bytes</string>
+	<string name="jv_viewer_bytes">kilobytes</string>
 	<string name="jv_viewer_maximum">Maximal allowed size is</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Filter results</string>
@@ -585,7 +585,7 @@
 	<string name="pref_i_showFullDirPath_on">Show full directory path in title</string>
 	<string name="pref_i_showFullDirPath_off">Show current directory name in title</string>
 	<string name="pref_i_showFullDirPath_title">Show full directory path in title</string>
-	<string name="jv_relaunch_add_startdir">Add path to Start folders</string>
+	<string name="jv_relaunch_add_startdir">Set folder as Start folder</string>
 	<string name="arr_appfav_button_actions_names_1">Nothing</string>
 	<string name="arr_appfav_button_actions_names_2">Open \"Favorite applications\" window</string>
 	<string name="arr_appfav_button_actions_names_3">Run application</string>

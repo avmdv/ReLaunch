@@ -20,10 +20,9 @@ public class BooksBase {
 	DbHelper dbHelper;
 	public static SQLiteDatabase db;
 
-	// private Pattern purgeBracketsPattern =
-	// Pattern.compile("\\[[\\s\\.\\-_]*\\]");
-	private Pattern purgeBracketsPattern = Pattern
-			.compile("\\[[\\[\\]\\s\\.\\-_]*\\]");
+	 private Pattern purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
+//	private Pattern purgeBracketsPattern = Pattern
+//			.compile("\\[[\\[\\]\\s\\.\\-_]*\\]");
 
 	private class DbHelper extends SQLiteOpenHelper {
 		final static int VERSION = 1;

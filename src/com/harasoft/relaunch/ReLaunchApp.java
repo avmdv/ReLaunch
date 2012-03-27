@@ -807,6 +807,7 @@ public class ReLaunchApp extends Application {
 				.getDefaultSharedPreferences(getBaseContext());
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString("startDir", dir);
+		editor.putBoolean("showAddStartDir", false);
 		editor.commit();
 	}
 

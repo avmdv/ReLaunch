@@ -79,7 +79,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="6.7dp"
-					android:text="Авторы:" />
+					android:text="@string/bookinfo_authors" />
 
 				<ListView
 					android:id="@+id/authors"
@@ -93,7 +93,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="6.7dp"
-					android:text="Серия:" />
+					android:text="@string/bookinfo_series" />
 
 				<TextView
 					android:id="@+id/tvSeries"
